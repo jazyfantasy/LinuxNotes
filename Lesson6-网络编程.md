@@ -21,7 +21,7 @@
 |  数据链路层  |   网络接口层    |
 |    物理层   |   网络接口层    |
 
-![Alt text](Linux网络模型.png)
+![Alt text](image/Linux网络模型.png)
 
 * 网络层协议
 	1. Internet协议(IP)
@@ -58,10 +58,10 @@
 	5. ...
 
 * 协议封装
-![Alt text](LinuxTCP协议封装.png)
+![Alt text](image/LinuxTCP协议封装.png)
 
 * 以太网包
-![Alt text](Linux以太网包协议结构.png)
+![Alt text](image/Linux以太网包协议结构.png)
 
 * Internet协议(IP) - 主要有以下4个主要功能:
 	1. 数据传送
@@ -73,7 +73,7 @@
 
 > IP包由<b>IP协议头</b>与<b>协议数据</b>两部分构成。
 
-![Alt text](LinuxIP协议头.png)
+![Alt text](image/LinuxIP协议头.png)
 
 * TCP协议
 
@@ -83,13 +83,13 @@
 > 
 > TCP是面向字节的顺序协议, 这意味着包内的每个字节被分配一个顺序编号, 并分配给每包一个顺序编号.
 
-![Alt text](LinuxTCP协议头.png)
+![Alt text](image/LinuxTCP协议头.png)
 
 * UDP协议
 
 > UDP也是传输层协议, 是<b>不可靠的非连接型</b>传输服务;但执行功能时具有较低开销, 执行速度比TCP快.
 
-![Alt text](LinuxUDP协议头.png)
+![Alt text](image/LinuxUDP协议头.png)
 
 ###Linux网络编程基础
 * Socket
@@ -214,7 +214,7 @@ struct hostent
 
 * TCP Server - Client 通讯模型
 
-![Alt text](TCP_CS通讯模型.png)
+![Alt text](image/TCP_CS通讯模型.png)
 
 ```
 // --- tcp_server.c ---
@@ -409,7 +409,7 @@ int main(int argc, char* argv[])
 
 * UDP Server - Client 通讯模型
 
-![Alt text](UDP_CS通讯模型.png)
+![Alt text](image/UDP_CS通讯模型.png)
 
 ```
 // --- udp_server.c ---
