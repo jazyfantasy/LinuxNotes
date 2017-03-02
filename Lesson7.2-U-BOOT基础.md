@@ -54,9 +54,117 @@ BootLoader大多采用两阶段,即stage1和stage2:
 
 * 使用交叉工具链
   1. 编译器: `arm-linux-gcc`
+
+    `arm-linux-gcc hello.c -o hello`
+
   2. 反汇编工具: `arm-linux-objdump`
+
+    `arm-linux-objdump -D -S hello`
+
   3. ELF文件查看工具: `arm-linux-readelf`
+
+    ```
+    arm-linux-readelf -a hello
+    arm-linux-readelf -d hello
+    ```
 
 ## 3. U-Boot介绍
 
+* U-Boot作用
+
+U-Boot是德国DENX小组开发的用于多种嵌入式CPU的BootLoader程序, 不仅支持嵌入式Linux系统的引导, 还支持VxWorks, QNX等多种嵌入式操作系统.
+
+* U-Boot下载
+
+`ftp://ftp.denx.de/pub/u-boot`
+
+* U-Boot目录结构
+  - Board - 和开发板有关的文件.
+  - Common - 实现Uboot支持的命令
+  - Cpu - 与特定CPU架构相关的代码.
+  - Disk - 对磁盘的支持
+  - Doc - 参考文档
+  - Drivers - Uboot支持的设备驱动程序.
+  - Fs - 文件系统的支持
+  - Include - Uboot使用的头文件.
+    - configs - 与开发板相关的配置头文件.
+    - asm - 与CPU体系结构相关的头文件.
+  - Net - 与网络协议栈相关的代码.
+  - Tools - Uboot的工具
+
+* U-Boot编译
+  1. 选择要使用的Board
+
+  `$make smdk6410_config`
+
+  2. 编译生成u-boot.bin
+
+  `$make CROSS_COMPILE=arm-linux-`
+
 ## 4. U-Boot命令
+
+* 常用命令
+
+  - `help` - 查看当前单板所支持的命令
+  - `printenv` - 查看环境变量
+  - `setenv` - 添加、修改、删除环境变量
+
+    `setenv name value` - 添加/修改
+
+    `setenv name` - 删除
+
+  - `saveenv` - 保存环境变量至flash中
+  - `tftp` - 通过网络下载文件(需先配置好网络)
+
+    `tftp c0800000 uImage` - 把server中服务目录下的uImage通过TFTP读入到0xc0800000处
+
+  - `md` - 显示内存区的内容
+
+    `md [.b, .w, .l] address`
+  - `mm` - 修改内存, 地址自动递增
+
+    `mm [.b, .w, .l] address`
+  - `nand info` - 查看NandFlash大小等信息
+  - `nand erase` - 擦除NandFlash
+
+    `nand erase start length`
+  - `nand write` - 向NandFlash写入数据
+
+    `nand write [内存地址] [flash地址] length`
+    `nand write.i c0800000 100000 600000`
+
+  - `nand read` - 从NandFlash读出数据
+
+    `nand read [内存地址] [flash地址] length`
+    `nand read.i c0800000 100000 600000`
+
+  - `go` - 执行内存中的二进制代码(简单跳转到指定地址)
+
+    `go addr [arg...]`
+
+  - `bootm` - 执行内存中的二进制代码(要求二进制代码有固定格式的文件头)
+
+    `bootm [addr [arg...]]`
+
+  - `bdinfo` - 显示开发板信息(包括内存地址和大小、时钟频率、MAC地址等)
+
+* 设置自动启动系统
+
+```
+setenv bootcmd tftp c0008000 uImage \; bootm c0008000
+saveenv
+```
+
+
+* NorFlash 和 NandFlash区别:
+
+  1. NorFlash读取速度比NandFlash快
+  2. NandFlash的写入速度比NorFlash快
+  3. NandFlash的擦除速度更快
+  4. NandFlash的成本更低
+  5. NandFlash的擦除寿命更长(百万次), NorFlash(10万次)
+  6. NandFlash通常采用自己独立编制, NorFlash则采用统一编制.
+
+  基于以上特性, NorFlash更适合用于存储代码, NandFlash更适合用于存储大容量数据.
+
+## end
