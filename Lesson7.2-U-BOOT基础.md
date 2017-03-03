@@ -166,5 +166,3 @@ saveenv
   6. NandFlash通常采用自己独立编制, NorFlash则采用统一编制.
 
   基于以上特性, NorFlash更适合用于存储代码, NandFlash更适合用于存储大容量数据.
-
-## end
